@@ -1,75 +1,64 @@
-# Automatic qBittorrent Port Updater for ProtonVPN
+# Quantum 繁體中文版（台灣用語）
 
-This application will monitor the Windows ProtonVPN client log files for port changes and pass them via the qBittorrent WebUI.
+自動將 Proton VPN 分配的轉送通訊埠同步至 qBittorrent。此 fork 基於 [UHAXM1/Quantum](https://github.com/UHAXM1/Quantum) v1.5.0，提供非官方繁體中文介面，使用台灣用語。
 
-In order to clone this repository you need to use the following command, or it wont clone the linked submodules
-"git clone --recurse-submodules https://github.com/UHAXM1/Quantum"
+[下載繁體中文版](https://github.com/Awayuki99/Quantum-Traditional-Chinese/releases/latest) · [建置說明](BUILD-zh-TW.md) · [上游英文說明](README.en.md)
 
-Quantum uses the linked submodule qBittorrent-net-client found here
-https://github.com/fedarovich/qbittorrent-net-client
+## 功能
 
-Tested with ProtonVPN version 3.3.2
+- 每分鐘讀取 Proton VPN 記錄檔，通訊埠變更時自動更新 qBittorrent。
+- 「設定」、「記錄」、「關於」、系統匣選單、提示及程式狀態訊息均使用繁體中文。
+- 可登入 Windows 後自動啟動，關閉視窗時縮小至系統匣。
+- 保留產品名稱、網址、路徑、Proton 原始記錄及外部錯誤詳情，方便查核。
 
-Requires .Net 8
+Quantum 不會將 Proton VPN 的通訊埠固定。重新連線後，會在下一輪檢查同步新埠號，通常需等待約一分鐘。
 
-Simply install and provide connection information to qBittorrent, Quantum will automatically try to find the ProtonVPN log directory
+## 執行需求
 
-Quantum will check the logs files once every minute.
+- Windows x64，以及 .NET 8 Windows Desktop Runtime。
+- 已啟用通訊埠轉送並連上支援此功能伺服器的 Proton VPN。
+- 已啟用網頁介面的 qBittorrent。
 
-Detailed setup steps:
+本版本曾在 Proton VPN 5.1.8 與 qBittorrent 5.2.4.10 上完成本機驗證。程式仍依賴 Proton 記錄格式，後續版本可能需要調整。
 
-qBittorrent Setup
+## 下載與設定
 
-	Open qBittorrent:
-		Launch qBittorrent on your computer.
- 
-	Access Preferences:
-		Go to Tools > Options or press Alt + O to open the preferences window.
+1. 在 [Releases](https://github.com/Awayuki99/Quantum-Traditional-Chinese/releases) 下載 `Quantum-1.5.0-zh-TW.1-win-x64.zip`，完整解壓縮後執行 `Quantum.exe`。
+2. 在 qBittorrent「工具 → 選項 → 網頁介面」啟用網頁介面，確認位址、通訊埠與驗證方式。只在本機操作時，可使用 `127.0.0.1`。
+3. 在 Quantum「設定」輸入網頁介面位址，例如 `http://127.0.0.1:8080`，以及設定的使用者名稱、密碼。若 qBittorrent 已允許本機略過驗證，這兩欄可留白。
+4. 按「測試並儲存設定」。成功後，按鈕會改為「立即更新通訊埠」。
+5. 確認 Proton VPN 記錄檔位置。若自動尋找失敗，關閉「自動尋找 Proton VPN 記錄檔」，手動選擇記錄檔。
 
-	Enable WebUI:
-		In the preferences window, select the Web UI section.
-		Check the box for Enable Web User Interface (Remote control).
-		You can leave the default IP address (usually 127.0.0.1 for local access) and Port (default is 8080), or change them if needed.
+新版 Proton VPN 的記錄檔通常位於：
 
-	Set Authentication:
-		Under Authentication, check the box for Use a username and password.
-		Enter a Username (default is admin).
-		Enter and confirm a Password.
-		Optionally you can enable Bypass authentication for clients on localhost, if you just set this you can leave the username and password blank.
+```text
+%LOCALAPPDATA%\Proton\Proton VPN\Logs\client-logs.txt
+```
 
-	Configure IP and Port:
-		If you want to access the WebUI from other devices on your network, you may need to change the IP address to 0.0.0.0 to allow access from all network interfaces.
-		Make sure the port you are using is not blocked by your firewall.
+舊版可能使用安裝資料夾下的 `ServiceData\Logs\service-logs.txt`。自動尋找功能沿用上游做法；新版 Proton 建議確認實際路徑。
 
-	Security Options:
-		Optionally, you can set up an IP filter to restrict which IP addresses can access the WebUI.
-		You can also enable HTTPS to secure the connection by providing an SSL certificate and key.
+設定完成後，不需要按 Proton 通知的「複製」，也不需要每次手動按「立即更新通訊埠」。可在「記錄」查看偵測到的通訊埠及同步結果；較長事件可水平捲動，或按兩下查看完整內容。
 
-	Apply and Save:
-		Click Apply and then OK to save your settings.
+若要取消登入自動啟動，關閉「登入 Windows 時啟動 Quantum」。若要停止程式，使用系統匣選單的「結束」。
 
-	Access the WebUI:
-		Open a web browser and go to http://: (e.g., http://127.0.0.1:8080 for local access).
-		Log in with the username and password you set.
-	
-Quantum setup
+## 從現有版本升級
 
-	Open Quantum:
-		Launch Quantum on your computer, if this is your first time running Quantum it will popup on screen, if it does not appear check the system tray and double-click the icon.
-		
-	Startup:
-		Enable or Disable Quantum from running when the user logs into the computer, this is account specific.
-		
-	Log File Location:
-		Quantum will try to find the ProtonVPN log file automatically, however if you prefer you can select the location manually, note that you do it manually you need to update the location each time after you update ProtonVPN, I suggest you leave this setting on automatic.
-		
-	qBittorrent Configuration:
-		Host: this should be 'http://127.0.0.1:8080' by default, if you are not using the default port or want to connect to a remote instance change the ip and port number here, if you are using SSL you need to change http to https.
-		Username and Password: Input the username and password you setup in the qBittorrent setup above, if you have enabled Bypass authentication for client on localhost and are local you can leave this blank.
-		
-	Test/Save/Update Port Now:
-		This button is dynamic and changes function depending on what has been selected above.
-		'Test\Save' will test then save the current configuration if it connects, you will get a popup telling you if the connection is a successful.
-		'Update Port Now' will force Quantum to update the port right away without waiting for the timer to count down.
+先結束 Quantum 並備份原資料夾。替換程式檔時，保留原本的 `Quantum.dll.config` 與使用者設定；完成後確認網頁介面及記錄檔路徑。
 
-Setup should now be complete, you can close Quantum by clicking the close window button (it will minimize to the system tray).
+Release 壓縮檔僅含程式、授權與通用預設值，不包含個人帳密、記錄檔或本機部署資料。
+
+## 開發與測試
+
+```powershell
+git clone --recurse-submodules https://github.com/Awayuki99/Quantum-Traditional-Chinese.git
+cd Quantum-Traditional-Chinese
+dotnet build .\scr\Quantum\Quantum.vbproj -c Release -p:GeneratePackageOnBuild=false
+```
+
+完整建置與修改說明請見 [BUILD-zh-TW.md](BUILD-zh-TW.md)。隔離驗證程式位於 [tests/Quantum.LocalizationChecks](tests/Quantum.LocalizationChecks/README.md)，使用假 qBittorrent API 與記憶體設定供應器。
+
+## 授權與致謝
+
+原作者：UHAX。上游專案：[UHAXM1/Quantum](https://github.com/UHAXM1/Quantum)。
+
+Quantum 依 [GPL-3.0](LICENSE) 授權；使用的 [qBittorrent-net-client](https://github.com/fedarovich/qbittorrent-net-client) 保留其原始授權。此 fork 與 Proton AG、qBittorrent 專案及原作者無官方關聯。

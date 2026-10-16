@@ -24,6 +24,11 @@ Namespace My
     ' End Sub
 
     Partial Friend Class MyApplication
+        Private Sub ConfigureTaiwanDefaults(sender As Object, e As ApplyApplicationDefaultsEventArgs) Handles Me.ApplyApplicationDefaults
+            TaiwanText.ApplyCulture()
+            e.Font = New System.Drawing.Font("Microsoft JhengHei UI", 9.0F)
+            e.HighDpiMode = System.Windows.Forms.HighDpiMode.PerMonitorV2
+        End Sub
 
     End Class
 End Namespace

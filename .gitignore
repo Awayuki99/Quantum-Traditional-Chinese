@@ -11,4 +11,5 @@
 *.exe
 /scr/Quantum/obj
 .vs/
+/test-results/
 /setup/output

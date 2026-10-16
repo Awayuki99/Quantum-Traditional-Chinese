@@ -94,8 +94,8 @@ Partial Class Main
         BTN_TestSaveUpdate.Name = "BTN_TestSaveUpdate"
         BTN_TestSaveUpdate.Size = New Size(381, 26)
         BTN_TestSaveUpdate.TabIndex = 6
-        BTN_TestSaveUpdate.Text = "Test/Save/Update"
-        TT_Main.SetToolTip(BTN_TestSaveUpdate, "Test the qBittorrent settings above, if it connects the settings will be saved, this will also force a port update")
+        BTN_TestSaveUpdate.Text = TaiwanText.Get("Test/Save/Update")
+        TT_Main.SetToolTip(BTN_TestSaveUpdate, TaiwanText.Get("Test the qBittorrent settings above, if it connects the settings will be saved, this will also force a port update"))
         BTN_TestSaveUpdate.UseVisualStyleBackColor = True
         ' 
         ' TMR_Main
@@ -115,23 +115,23 @@ Partial Class Main
         LV_VPNLogFile.Name = "LV_VPNLogFile"
         LV_VPNLogFile.Size = New Size(387, 127)
         LV_VPNLogFile.TabIndex = 1
-        TT_Main.SetToolTip(LV_VPNLogFile, "Double click to see the unparsed log entry")
+        TT_Main.SetToolTip(LV_VPNLogFile, TaiwanText.Get("Double click to see the unparsed log entry"))
         LV_VPNLogFile.UseCompatibleStateImageBehavior = False
         LV_VPNLogFile.View = View.Details
         ' 
         ' CH_VPNDateTime
         ' 
-        CH_VPNDateTime.Text = "Date/Time"
+        CH_VPNDateTime.Text = TaiwanText.Get("Date/Time")
         CH_VPNDateTime.Width = 100
         ' 
         ' CH_VPNPort
         ' 
-        CH_VPNPort.Text = "Port Number"
+        CH_VPNPort.Text = TaiwanText.Get("Port Number")
         CH_VPNPort.Width = 100
         ' 
         ' CH_VPNValid
         ' 
-        CH_VPNValid.Text = "Valid"
+        CH_VPNValid.Text = TaiwanText.Get("Valid")
         ' 
         ' BTN_LogFile
         ' 
@@ -156,8 +156,8 @@ Partial Class Main
         TBE_Startup.Name = "TBE_Startup"
         TBE_Startup.Size = New Size(373, 26)
         TBE_Startup.TabIndex = 0
-        TBE_Startup.Text = "Launch Quantum at System Startup"
-        TT_Main.SetToolTip(TBE_Startup, "Enable/Disable running Quantum when Windows starts")
+        TBE_Startup.Text = TaiwanText.Get("Launch Quantum at System Startup")
+        TT_Main.SetToolTip(TBE_Startup, TaiwanText.Get("Enable/Disable running Quantum when Windows starts"))
         ' 
         ' TBE_LogFile
         ' 
@@ -169,41 +169,41 @@ Partial Class Main
         TBE_LogFile.Name = "TBE_LogFile"
         TBE_LogFile.Size = New Size(373, 26)
         TBE_LogFile.TabIndex = 1
-        TBE_LogFile.Text = "Locate ProtonVPN log files automaticlly"
-        TT_Main.SetToolTip(TBE_LogFile, "Select automatic or manual log file selection")
+        TBE_LogFile.Text = TaiwanText.Get("Locate ProtonVPN log files automaticlly")
+        TT_Main.SetToolTip(TBE_LogFile, TaiwanText.Get("Select automatic or manual log file selection"))
         ' 
         ' TXT_Host
         ' 
         TXT_Host.Dock = DockStyle.Fill
         TXT_Host.Location = New Point(3, 3)
         TXT_Host.Name = "TXT_Host"
-        TXT_Host.PlaceholderText = "Host (e.g. http://127.0.0.1:8080)"
+        TXT_Host.PlaceholderText = TaiwanText.Get("Host (e.g. http://127.0.0.1:8080)")
         TXT_Host.Size = New Size(375, 23)
         TXT_Host.TabIndex = 3
         TXT_Host.TextAlign = HorizontalAlignment.Center
-        TT_Main.SetToolTip(TXT_Host, "qBittorrent Host Address (e.g. http://127.0.0.1:8080)")
+        TT_Main.SetToolTip(TXT_Host, TaiwanText.Get("qBittorrent Host Address (e.g. http://127.0.0.1:8080)"))
         ' 
         ' TXT_Username
         ' 
         TXT_Username.Dock = DockStyle.Fill
         TXT_Username.Location = New Point(3, 35)
         TXT_Username.Name = "TXT_Username"
-        TXT_Username.PlaceholderText = "Username"
+        TXT_Username.PlaceholderText = TaiwanText.Get("Username")
         TXT_Username.Size = New Size(375, 23)
         TXT_Username.TabIndex = 4
         TXT_Username.TextAlign = HorizontalAlignment.Center
-        TT_Main.SetToolTip(TXT_Username, "qBittorrent Username")
+        TT_Main.SetToolTip(TXT_Username, TaiwanText.Get("qBittorrent Username"))
         ' 
         ' TXT_Password
         ' 
         TXT_Password.Dock = DockStyle.Fill
         TXT_Password.Location = New Point(3, 67)
         TXT_Password.Name = "TXT_Password"
-        TXT_Password.PlaceholderText = "Password"
+        TXT_Password.PlaceholderText = TaiwanText.Get("Password")
         TXT_Password.Size = New Size(375, 23)
         TXT_Password.TabIndex = 5
         TXT_Password.TextAlign = HorizontalAlignment.Center
-        TT_Main.SetToolTip(TXT_Password, "qBittorrent Password")
+        TT_Main.SetToolTip(TXT_Password, TaiwanText.Get("qBittorrent Password"))
         TXT_Password.UseSystemPasswordChar = True
         ' 
         ' STS_Main
@@ -250,7 +250,7 @@ Partial Class Main
         TP_Settings.Padding = New Padding(3)
         TP_Settings.Size = New Size(399, 311)
         TP_Settings.TabIndex = 0
-        TP_Settings.Text = "Settings"
+        TP_Settings.Text = TaiwanText.Get("Settings")
         TP_Settings.UseVisualStyleBackColor = True
         ' 
         ' TLP_SubMain
@@ -280,7 +280,7 @@ Partial Class Main
         GroupBox1.Size = New Size(387, 119)
         GroupBox1.TabIndex = 12
         GroupBox1.TabStop = False
-        GroupBox1.Text = "Quantum Configuration"
+        GroupBox1.Text = TaiwanText.Get("Quantum Configuration")
         ' 
         ' TLP_MainSubQuantum
         ' 
@@ -292,11 +292,10 @@ Partial Class Main
         TLP_MainSubQuantum.Dock = DockStyle.Fill
         TLP_MainSubQuantum.Location = New Point(3, 19)
         TLP_MainSubQuantum.Name = "TLP_MainSubQuantum"
-        TLP_MainSubQuantum.RowCount = 4
-        TLP_MainSubQuantum.RowStyles.Add(New RowStyle(SizeType.Absolute, 32F))
-        TLP_MainSubQuantum.RowStyles.Add(New RowStyle(SizeType.Absolute, 32F))
-        TLP_MainSubQuantum.RowStyles.Add(New RowStyle(SizeType.Absolute, 32F))
-        TLP_MainSubQuantum.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TLP_MainSubQuantum.RowCount = 3
+        TLP_MainSubQuantum.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333F))
+        TLP_MainSubQuantum.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333F))
+        TLP_MainSubQuantum.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333F))
         TLP_MainSubQuantum.Size = New Size(381, 97)
         TLP_MainSubQuantum.TabIndex = 0
         ' 
@@ -309,7 +308,7 @@ Partial Class Main
         GB_qBittorrentConfig.Size = New Size(387, 119)
         GB_qBittorrentConfig.TabIndex = 13
         GB_qBittorrentConfig.TabStop = False
-        GB_qBittorrentConfig.Text = "qBittorrent WebUI Configuration"
+        GB_qBittorrentConfig.Text = TaiwanText.Get("qBittorrent WebUI Configuration")
         ' 
         ' TLP_MainSubqBittorrent
         ' 
@@ -322,11 +321,10 @@ Partial Class Main
         TLP_MainSubqBittorrent.Dock = DockStyle.Fill
         TLP_MainSubqBittorrent.Location = New Point(3, 19)
         TLP_MainSubqBittorrent.Name = "TLP_MainSubqBittorrent"
-        TLP_MainSubqBittorrent.RowCount = 4
-        TLP_MainSubqBittorrent.RowStyles.Add(New RowStyle(SizeType.Absolute, 32F))
-        TLP_MainSubqBittorrent.RowStyles.Add(New RowStyle(SizeType.Absolute, 32F))
-        TLP_MainSubqBittorrent.RowStyles.Add(New RowStyle(SizeType.Absolute, 32F))
-        TLP_MainSubqBittorrent.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TLP_MainSubqBittorrent.RowCount = 3
+        TLP_MainSubqBittorrent.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333F))
+        TLP_MainSubqBittorrent.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333F))
+        TLP_MainSubqBittorrent.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333F))
         TLP_MainSubqBittorrent.Size = New Size(381, 97)
         TLP_MainSubqBittorrent.TabIndex = 0
         ' 
@@ -339,7 +337,7 @@ Partial Class Main
         GB_Action.Size = New Size(387, 48)
         GB_Action.TabIndex = 14
         GB_Action.TabStop = False
-        GB_Action.Text = "Action"
+        GB_Action.Text = TaiwanText.Get("Action")
         ' 
         ' TP_Logs
         ' 
@@ -348,7 +346,7 @@ Partial Class Main
         TP_Logs.Name = "TP_Logs"
         TP_Logs.Size = New Size(399, 311)
         TP_Logs.TabIndex = 1
-        TP_Logs.Text = "Logs"
+        TP_Logs.Text = TaiwanText.Get("Logs")
         TP_Logs.UseVisualStyleBackColor = True
         ' 
         ' TLP_Logs
@@ -376,7 +374,7 @@ Partial Class Main
         GB_ProtonLog.Size = New Size(393, 149)
         GB_ProtonLog.TabIndex = 1
         GB_ProtonLog.TabStop = False
-        GB_ProtonLog.Text = "ProtonVPN Log File Output (Parsed)"
+        GB_ProtonLog.Text = TaiwanText.Get("ProtonVPN Log File Output (Parsed)")
         ' 
         ' GB_QuantumLog
         ' 
@@ -387,7 +385,7 @@ Partial Class Main
         GB_QuantumLog.Size = New Size(393, 150)
         GB_QuantumLog.TabIndex = 2
         GB_QuantumLog.TabStop = False
-        GB_QuantumLog.Text = "Quantum Event Log"
+        GB_QuantumLog.Text = TaiwanText.Get("Quantum Event Log")
         ' 
         ' LV_QLog
         ' 
@@ -402,18 +400,18 @@ Partial Class Main
         LV_QLog.Name = "LV_QLog"
         LV_QLog.Size = New Size(387, 128)
         LV_QLog.TabIndex = 2
-        TT_Main.SetToolTip(LV_QLog, "Double click to see the event")
+        TT_Main.SetToolTip(LV_QLog, TaiwanText.Get("Double click to see the event"))
         LV_QLog.UseCompatibleStateImageBehavior = False
         LV_QLog.View = View.Details
         ' 
         ' CH_QDateTime
         ' 
-        CH_QDateTime.Text = "Date/Time"
+        CH_QDateTime.Text = TaiwanText.Get("Date/Time")
         CH_QDateTime.Width = 100
         ' 
         ' CH_QEvent
         ' 
-        CH_QEvent.Text = "Event"
+        CH_QEvent.Text = TaiwanText.Get("Event")
         CH_QEvent.Width = 237
         ' 
         ' TP_About
@@ -423,7 +421,7 @@ Partial Class Main
         TP_About.Name = "TP_About"
         TP_About.Size = New Size(399, 311)
         TP_About.TabIndex = 2
-        TP_About.Text = "About"
+        TP_About.Text = TaiwanText.Get("About")
         TP_About.UseVisualStyleBackColor = True
         ' 
         ' TLP_About
@@ -485,7 +483,7 @@ Partial Class Main
         LNK_AboutProtonVPN.Size = New Size(393, 44)
         LNK_AboutProtonVPN.TabIndex = 4
         LNK_AboutProtonVPN.TabStop = True
-        LNK_AboutProtonVPN.Text = "This app is not affiliated in any way with Proton AG (https://proton.me/), use at your own risk."
+        LNK_AboutProtonVPN.Text = TaiwanText.Get("This app is not affiliated in any way with Proton AG (https://proton.me/), use at your own risk.")
         LNK_AboutProtonVPN.TextAlign = ContentAlignment.MiddleCenter
         LNK_AboutProtonVPN.UseCompatibleTextRendering = True
         ' 
@@ -497,7 +495,7 @@ Partial Class Main
         LBL_Author.Name = "LBL_Author"
         LBL_Author.Size = New Size(243, 20)
         LBL_Author.TabIndex = 1
-        LBL_Author.Text = "By UHAX"
+        LBL_Author.Text = TaiwanText.Get("By UHAX")
         LBL_Author.TextAlign = ContentAlignment.TopCenter
         ' 
         ' CMS_Main
@@ -510,19 +508,19 @@ Partial Class Main
         ' 
         TSMI_ShowHide.Name = "TSMI_ShowHide"
         TSMI_ShowHide.Size = New Size(165, 22)
-        TSMI_ShowHide.Text = "Show/Hide"
+        TSMI_ShowHide.Text = TaiwanText.Get("Show/Hide")
         ' 
         ' TSMI_UpdateNow
         ' 
         TSMI_UpdateNow.Name = "TSMI_UpdateNow"
         TSMI_UpdateNow.Size = New Size(165, 22)
-        TSMI_UpdateNow.Text = "Update Port Now"
+        TSMI_UpdateNow.Text = TaiwanText.Get("Update Port Now")
         ' 
         ' TSMI_Exit
         ' 
         TSMI_Exit.Name = "TSMI_Exit"
         TSMI_Exit.Size = New Size(165, 22)
-        TSMI_Exit.Text = "Exit"
+        TSMI_Exit.Text = TaiwanText.Get("Exit")
         ' 
         ' TLP_Main
         ' 
@@ -551,9 +549,9 @@ Partial Class Main
         ' 
         ' Main
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7F, 17F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(413, 390)
+        ClientSize = New Size(480, 450)
         Controls.Add(TLP_Main)
         Controls.Add(STS_Main)
         DoubleBuffered = True

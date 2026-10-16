@@ -1,11 +1,16 @@
 ﻿Imports System.IO
 Imports Microsoft.Win32
 Imports QBittorrent.Client
-Imports GitHubUpdate
 
 Public Class Main
 
     ' Counter for the timer
+    Private Enum ConnectionAction
+        TestAndSave
+        UpdatePort
+    End Enum
+    Private CurrentConnectionAction As ConnectionAction = ConnectionAction.TestAndSave
+
     Private TimerCount As Integer = 0
 
     ' Last valid port captured port from logs or qBittorrent
@@ -17,7 +22,12 @@ Public Class Main
     Public Sub New()
 
         ' This call is required by the designer.
+        TaiwanText.ApplyCulture()
         InitializeComponent()
+        Me.Font = New Font("Microsoft JhengHei UI", 9.0F, FontStyle.Regular)
+        Me.MinimumSize = New Size(500, 490)
+        LNK_AboutProtonVPN.Links.Clear()
+        LNK_AboutProtonVPN.Links.Add(LNK_AboutProtonVPN.Text.IndexOf("https://proton.me/", StringComparison.Ordinal), "https://proton.me/".Length)
 
         ' Add any initialization after the InitializeComponent() call.
 
@@ -49,7 +59,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput("qBittorrent error: " & ex.Message, True, True)
+            LogOutput(TaiwanText.Get("qBittorrent error: ") & ex.Message, True, True)
 
         Finally
 
@@ -84,19 +94,19 @@ Public Class Main
             My.Settings.Password = TXT_Password.Text
             My.Settings.Save()
 
-            LogOutput("Connected to qBittorrent, settings saved!", True, False)
+            LogOutput(TaiwanText.Get("Connected to qBittorrent, settings saved!"), True, False)
 
             ' Let the user know connection is successful
-            Dim Result As DialogResult = MessageBox.Show("Connected to qBittorrent, settings saved!")
+            Dim Result As DialogResult = MessageBox.Show(TaiwanText.Get("Connected to qBittorrent, settings saved!"))
 
             ' Check logs for updated port, this will also start the timer
             CheckForChange()
 
         Catch ex As Exception
 
-            LogOutput("qBittorrent error: " & ex.Message, True, True)
+            LogOutput(TaiwanText.Get("qBittorrent error: ") & ex.Message, True, True)
 
-            MessageBox.Show("qBittorrent error: " & ex.Message)
+            MessageBox.Show(TaiwanText.Get("qBittorrent error: ") & ex.Message)
 
         End Try
 
@@ -126,11 +136,11 @@ Public Class Main
             ' If no exception then save the port
             LastValidPort = pPort
 
-            LogOutput("Updated qBittorrent port to " & LastValidPort, True, False)
+            LogOutput(TaiwanText.Get("Updated qBittorrent port to ") & LastValidPort, True, False)
 
         Catch ex As Exception
 
-            LogOutput("qBittorrent error: " & ex.Message, True, True)
+            LogOutput(TaiwanText.Get("qBittorrent error: ") & ex.Message, True, True)
 
         End Try
 
@@ -154,9 +164,9 @@ Public Class Main
 
             ' Update UI
             BTN_TestSaveUpdate.Enabled = False
-            BTN_TestSaveUpdate.Text = "Reading log file..."
+            BTN_TestSaveUpdate.Text = TaiwanText.Get("Reading log file...")
 
-            LogOutput("Reading log file...", False, False)
+            LogOutput(TaiwanText.Get("Reading log file..."), False, False)
 
             ' Clear all exisitng log entries
             LV_VPNLogFile.Items.Clear()
@@ -249,29 +259,29 @@ Public Class Main
 
                     Else
 
-                        LogOutput("Connected to qBittorrent, no changes to port detected", True, False)
+                        LogOutput(TaiwanText.Get("Connected to qBittorrent, no changes to port detected"), True, False)
 
                     End If
 
                 Else
 
-                    LogOutput("No valid port information found in logs", True, False)
+                    LogOutput(TaiwanText.Get("No valid port information found in logs"), True, False)
 
                 End If
 
-                GB_ProtonLog.Text = "ProtonVPN Log Files Output (Parsed) " & DateTime.Now
+                GB_ProtonLog.Text = TaiwanText.Get("ProtonVPN Log Files Output (Parsed) ") & DateTime.Now
 
             Else
 
                 ' ProtonVPN log files not found
-                LogOutput("Cannot locate ProtonVPN log files", True, False)
-                GB_ProtonLog.Text = "ProtonVPN Log Files Output (Parsed)"
+                LogOutput(TaiwanText.Get("Cannot locate ProtonVPN log files"), True, False)
+                GB_ProtonLog.Text = TaiwanText.Get("ProtonVPN Log Files Output (Parsed)")
 
             End If
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         Finally
 
@@ -389,7 +399,7 @@ Public Class Main
                                 End If
 
                                 ' Set validport to subitem
-                                NewItem.SubItems.Add(ValidPort)
+                                NewItem.SubItems.Add(If(ValidPort, TaiwanText.Get("Valid"), TaiwanText.Get("Invalid")))
 
                                 ' Add to items
                                 Items.Add(NewItem)
@@ -454,7 +464,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -472,7 +482,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -501,7 +511,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -525,7 +535,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            MessageBox.Show(ex.Message)
+            MessageBox.Show(TaiwanText.Get("Unexpected error: ") & ex.Message)
 
         End Try
 
@@ -536,10 +546,10 @@ Public Class Main
             TBE_LogFile.SetToolTip(TT_Main)
 
             ' Set the main form title with version number
-            Me.Text = My.Application.Info.AssemblyName & " - v" & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Build
+            Me.Text = My.Application.Info.AssemblyName & " - v" & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Build & TaiwanText.Get("Traditional Chinese suffix")
 
             ' Set the main form size
-            Me.Size = New Size(433, 433)
+            Me.ClientSize = New Size(480, 450)
 
             ' Make sure the first tab is selected
             TAB_Main.SelectedIndex = 0
@@ -551,7 +561,7 @@ Public Class Main
             If My.Settings.FirstRun = True Then
 
                 ' Show program disclaimer
-                MessageBox.Show(LNK_AboutProtonVPN.Text, "Disclaimer!")
+                MessageBox.Show(LNK_AboutProtonVPN.Text, TaiwanText.Get("Disclaimer!"))
 
                 ' Update settings so this message is not shown again
                 My.Settings.FirstRun = False
@@ -622,14 +632,14 @@ Public Class Main
 
             UpdateConnectionUI()
 
-            LogOutput("Quantum Started!", True, False)
+            LogOutput(TaiwanText.Get("Quantum Started!"), True, False)
 
             ' Call task to check for a qBittorrent connection
             Dim DoTask As Task = CheckConnection()
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -682,7 +692,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -698,7 +708,7 @@ Public Class Main
                 If My.Settings.AutoFindLog = True Then
 
                     ' If log file found update the UI
-                    BTN_LogFile.Text = "ProtonVPN Log Files Found!"
+                    BTN_LogFile.Text = TaiwanText.Get("ProtonVPN Log Files Found!")
 
                     BTN_LogFile.Enabled = False
 
@@ -709,12 +719,12 @@ Public Class Main
                 Else
 
                     ' If log file found update the UI
-                    BTN_LogFile.Text = "ProtonVPN Log Files Found!   (...)"
+                    BTN_LogFile.Text = TaiwanText.Get("ProtonVPN Log Files Found!   (...)")
 
                     BTN_LogFile.Enabled = True
 
                     ' Update the tooltips
-                    TT_Main.SetToolTip(TBE_LogFile, "Enabling this setting is recommended")
+                    TT_Main.SetToolTip(TBE_LogFile, TaiwanText.Get("Enabling this setting is recommended"))
                     TT_Main.SetToolTip(BTN_LogFile, My.Settings.FilePath)
 
                 End If
@@ -724,7 +734,7 @@ Public Class Main
                 If My.Settings.AutoFindLog = True Then
 
                     ' If log file not found update the UI
-                    BTN_LogFile.Text = "Unable to locate ProtonVPN Logs File"
+                    BTN_LogFile.Text = TaiwanText.Get("Unable to locate ProtonVPN Logs File")
 
                     BTN_LogFile.Enabled = False
 
@@ -735,12 +745,12 @@ Public Class Main
                 Else
 
                     ' If log file not found update the UI
-                    BTN_LogFile.Text = "Unable to locate ProtonVPN Log Files   (...)"
+                    BTN_LogFile.Text = TaiwanText.Get("Unable to locate ProtonVPN Log Files   (...)")
 
                     BTN_LogFile.Enabled = True
 
                     ' Update the tooltips
-                    TT_Main.SetToolTip(TBE_LogFile, "Enabling this setting is recommended")
+                    TT_Main.SetToolTip(TBE_LogFile, TaiwanText.Get("Enabling this setting is recommended"))
                     TT_Main.SetToolTip(BTN_LogFile, My.Settings.FilePath)
 
                 End If
@@ -749,7 +759,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -760,7 +770,7 @@ Public Class Main
 
         Try
 
-            If BTN_TestSaveUpdate.Text = "Update Port Now" Then
+            If CurrentConnectionAction = ConnectionAction.UpdatePort Then
 
                 Dim DoTaskUpdate As Task = CheckConnection()
 
@@ -773,7 +783,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -841,12 +851,12 @@ Public Class Main
                 If pForced = False Then
 
                     ' Show a yes/no dialog with a logic path example
-                    Result = MessageBox.Show("Do you want to select a diffrent ProtonVPN log file location? Here is an example location of where you can find it: " & vbCrLf & LogicFileLocation, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Result = MessageBox.Show(TaiwanText.Get("Do you want to select a diffrent ProtonVPN log file location? Here is an example location of where you can find it: ") & vbCrLf & LogicFileLocation, TaiwanText.Get("Confirmation"), MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                 Else
 
                     ' Show a forced dialog with a logic path example
-                    Result = MessageBox.Show("Quantum is unable to locate the ProtonVPN log file, you must select a log file in the next screen, here is an example location of where you can find it: " & vbCrLf & LogicFileLocation, "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Question)
+                    Result = MessageBox.Show(TaiwanText.Get("Quantum is unable to locate the ProtonVPN log file, you must select a log file in the next screen, here is an example location of where you can find it: ") & vbCrLf & LogicFileLocation, TaiwanText.Get("Confirmation"), MessageBoxButtons.OK, MessageBoxIcon.Question)
 
                 End If
 
@@ -855,12 +865,12 @@ Public Class Main
                 If pForced = False Then
 
                     ' Show a yes/no dialog with a static path example 
-                    Result = MessageBox.Show("Do you want to select a diffrent ProtonVPN log file location? Here is an example location of where you can find it: " & vbCrLf & "C:\Program Files\Proton\VPN\v3.3.0\ServiceData\Logs\service-logs.txt", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Result = MessageBox.Show(TaiwanText.Get("Do you want to select a diffrent ProtonVPN log file location? Here is an example location of where you can find it: ") & vbCrLf & "C:\Program Files\Proton\VPN\v3.3.0\ServiceData\Logs\service-logs.txt", TaiwanText.Get("Confirmation"), MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                 Else
 
                     ' Show a focred dialog with a static path example 
-                    Result = MessageBox.Show("Quantum is unable to locate the ProtonVPN log file, you must select a log file in the next screen, here is an example location of where you can find it: " & vbCrLf & "C:\Program Files\Proton\VPN\v3.3.0\ServiceData\Logs\service-logs.txt", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Question)
+                    Result = MessageBox.Show(TaiwanText.Get("Quantum is unable to locate the ProtonVPN log file, you must select a log file in the next screen, here is an example location of where you can find it: ") & vbCrLf & "C:\Program Files\Proton\VPN\v3.3.0\ServiceData\Logs\service-logs.txt", TaiwanText.Get("Confirmation"), MessageBoxButtons.OK, MessageBoxIcon.Question)
 
                 End If
 
@@ -883,8 +893,8 @@ Public Class Main
                 End If
 
                 ' Setup file select dialog settings
-                LogFileOpenFileDialog.Title = "Select the ProtonVPN log file"
-                LogFileOpenFileDialog.Filter = "service-logs.txt | service-logs.txt"
+                LogFileOpenFileDialog.Title = TaiwanText.Get("Select the ProtonVPN log file")
+                LogFileOpenFileDialog.Filter = TaiwanText.Get("Log file filter")
                 LogFileOpenFileDialog.Multiselect = False
 
                 ' Show file select prompt
@@ -904,7 +914,7 @@ Public Class Main
                         Me.WindowState = FormWindowState.Normal
                         Me.BringToFront()
 
-                        MessageBox.Show("Quantum cannot run properly without a valid log file!!!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        MessageBox.Show(TaiwanText.Get("Quantum cannot run properly without a valid log file!!!"), TaiwanText.Get("Warning"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
 
                     End If
 
@@ -914,7 +924,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -967,7 +977,7 @@ Public Class Main
             If pError = True Then
 
                 ' Update toolstrip
-                TSSL_Main.Text = "Error, check logs for more information - " & DateTime.Now.ToShortTimeString
+                TSSL_Main.Text = TaiwanText.Get("Error, check logs for more information - ") & DateTime.Now.ToShortTimeString
 
             Else
 
@@ -999,7 +1009,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1027,7 +1037,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1041,13 +1051,13 @@ Public Class Main
             If LV_VPNLogFile.SelectedItems.Count > 0 Then
 
                 ' Display the full unparsed line
-                MessageBox.Show(LV_VPNLogFile.SelectedItems(0).Tag.ToString, "ProtonVPN Log File Entry")
+                MessageBox.Show(LV_VPNLogFile.SelectedItems(0).Tag.ToString, TaiwanText.Get("ProtonVPN Log File Entry"))
 
             End If
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1061,13 +1071,13 @@ Public Class Main
             If LV_QLog.SelectedItems.Count > 0 Then
 
                 ' Display the log entry
-                MessageBox.Show(LV_QLog.SelectedItems(0).SubItems.Item(1).Text, "Quantum Log Event - " & LV_QLog.SelectedItems(0).SubItems.Item(0).Text)
+                MessageBox.Show(LV_QLog.SelectedItems(0).SubItems.Item(1).Text, TaiwanText.Get("Quantum Log Event - ") & LV_QLog.SelectedItems(0).SubItems.Item(0).Text)
 
             End If
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1089,7 +1099,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, False)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, False)
 
         End Try
 
@@ -1111,7 +1121,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, False)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, False)
 
         End Try
 
@@ -1167,18 +1177,18 @@ Public Class Main
             If Me.Visible = True Then
 
                 'Change the label to 'Hide'
-                TSMI_ShowHide.Text = "Hide"
+                TSMI_ShowHide.Text = TaiwanText.Get("Hide")
 
             Else
 
                 'Change the label to 'Show'
-                TSMI_ShowHide.Text = "Show"
+                TSMI_ShowHide.Text = TaiwanText.Get("Show")
 
             End If
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1205,7 +1215,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1221,7 +1231,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1240,7 +1250,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1259,7 +1269,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1278,7 +1288,7 @@ Public Class Main
             Else
 
                 ' Prompt the user is sure they want to remove autorun
-                Dim Result As DialogResult = MessageBox.Show("Are you sure you want to disable automatic log file location?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                Dim Result As DialogResult = MessageBox.Show(TaiwanText.Get("Are you sure you want to disable automatic log file location?"), TaiwanText.Get("Confirmation"), MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                 If Result = DialogResult.Yes Then
 
@@ -1304,7 +1314,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1320,7 +1330,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1339,7 +1349,7 @@ Public Class Main
             Else
 
                 ' Prompt the user is sure they want to remove autorun
-                Dim Result As DialogResult = MessageBox.Show("Are you sure you want to delete the startup entry?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                Dim Result As DialogResult = MessageBox.Show(TaiwanText.Get("Are you sure you want to delete the startup entry?"), TaiwanText.Get("Confirmation"), MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                 If Result = DialogResult.Yes Then
 
@@ -1357,7 +1367,7 @@ Public Class Main
 
         Catch ex As Exception
 
-            LogOutput(ex.Message, True, True)
+            LogOutput(TaiwanText.Get("Unexpected error: ") & ex.Message, True, True)
 
         End Try
 
@@ -1399,11 +1409,13 @@ Public Class Main
 
         If Update = True Then
 
-            BTN_TestSaveUpdate.Text = "Update Port Now"
+            CurrentConnectionAction = ConnectionAction.UpdatePort
+            BTN_TestSaveUpdate.Text = TaiwanText.Get("Update Port Now")
 
         Else
 
-            BTN_TestSaveUpdate.Text = "Test/Save Settings"
+            CurrentConnectionAction = ConnectionAction.TestAndSave
+            BTN_TestSaveUpdate.Text = TaiwanText.Get("Test/Save Settings")
 
         End If
 
@@ -1413,6 +1425,22 @@ Public Class Main
 
         UpdateConnectionUI()
 
+    End Sub
+
+    Private Sub FitRecordColumns(sender As Object, e As EventArgs) Handles LV_VPNLogFile.SizeChanged, LV_VPNLogFile.FontChanged, LV_QLog.SizeChanged, LV_QLog.FontChanged
+        For Each list As ListView In {LV_VPNLogFile, LV_QLog}
+            If list Is Nothing OrElse list.Columns.Count = 0 Then Continue For
+            For index As Integer = 0 To list.Columns.Count - 1
+                Dim width = TextRenderer.MeasureText(list.Columns(index).Text, list.Font).Width + 12
+                For Each item As ListViewItem In list.Items
+                    If item.SubItems.Count > index Then width = Math.Max(width, TextRenderer.MeasureText(item.SubItems(index).Text, list.Font).Width + 12)
+                Next
+                list.Columns(index).Width = width
+            Next
+            If list Is LV_QLog AndAlso list.Columns.Count > 1 Then
+                list.Columns(1).Width = Math.Max(list.Columns(1).Width, list.ClientSize.Width - list.Columns(0).Width - SystemInformation.VerticalScrollBarWidth - 7)
+            End If
+        Next
     End Sub
 
     Private Sub TXT_Username_TextChanged(sender As Object, e As EventArgs) Handles TXT_Username.TextChanged
